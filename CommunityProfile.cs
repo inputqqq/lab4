@@ -6,6 +6,7 @@ public class CommunityProfile
     public string Id { get; set; }
     public string Nickname { get; set; }
     public string JoinedDate { get; set; }
+
     public List<string> Friends { get; set; }
     public List<string> Badges { get; set; }
 
@@ -20,7 +21,6 @@ public class CommunityProfile
         Id = id;
         Nickname = nickname;
         JoinedDate = date;
-
         Friends = new List<string>();
         Badges = new List<string>();
     }
@@ -32,12 +32,22 @@ public class CommunityProfile
 
     public void AddFriend(string friendId)
     {
-        Friends.Add(friendId);
+        try
+        {
+            if (string.IsNullOrEmpty(friendId))
+                throw new ArgumentException("Friend ID cannot be empty.");
+            Friends.Add(friendId);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error adding friend: {ex.Message}");
+        }
     }
 
     public void AwardBadge(string badge)
     {
-        Badges.Add(badge);
+        if (!string.IsNullOrEmpty(badge))
+            Badges.Add(badge);
     }
 
     public void ShowProfileInfo()
