@@ -3,47 +3,67 @@ using System.Collections.Generic;
 
 public class Challenge
 {
-	public string Id { get; set; }
-	public string Title { get; set; }
-	public string Description { get; set; }
-	public int DurationDays { get; set; }
-	public List<string> Participants { get; set; }
+    public string Id { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    private int durationDays;
+    public int DurationDays
+    {
+        get { return durationDays; }
+        set
+        {
+            if (value <= 0) throw new ArgumentException("Duration must be positive.");
+            durationDays = value;
+        }
+    }
 
-	public Challenge()
-	{
-		Participants = new List<string>();
-	}
+    public List<string> Participants { get; set; }
 
-	public Challenge(string id, string title, string description, int durationDays)
-	{
-		Id = id;
-		Title = title;
-		Description = description;
-		DurationDays = durationDays;
-		Participants = new List<string>();
-	}
+    public Challenge()
+    {
+        Participants = new List<string>();
+    }
 
-	public static Challenge CreateChallenge(string id, string title, string description, int durationDays)
-	{
-		return new Challenge(id, title, description, durationDays);
-	}
+    public Challenge(string id, string title, string description, int durationDays)
+    {
+        Id = id;
+        Title = title;
+        Description = description;
+        DurationDays = durationDays;
+        Participants = new List<string>();
+    }
 
-	public void Join(string userId)
-	{
-		Participants.Add(userId);
-	}
+    public static Challenge CreateChallenge(string id, string title, string description, int durationDays)
+    {
+        return new Challenge(id, title, description, durationDays);
+    }
 
-	public double GetProgress(string userId)
-	{
-		if (!Participants.Contains(userId))
-			return 0;
+    public void Join(string userId)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(userId))
+                throw new ArgumentException("User ID cannot be empty.");
 
-		return 50.0; // заглушка как в UML
-	}
+            Participants.Add(userId);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error joining challenge: {ex.Message}");
+        }
+    }
 
-	public void ShowChallengeInfo()
-	{
-		Console.WriteLine($"{Title}\n{Description}\nDuration: {DurationDays} days");
-		Console.WriteLine($"Participants: {Participants.Count}");
-	}
+    public double GetProgress(string userId)
+    {
+        if (!Participants.Contains(userId))
+            return 0;
+
+        return 50.0; // Заглушка
+    }
+
+    public void ShowChallengeInfo()
+    {
+        Console.WriteLine($"{Title}\n{Description}\nDuration: {DurationDays} days");
+        Console.WriteLine($"Participants: {Participants.Count}");
+    }
 }
