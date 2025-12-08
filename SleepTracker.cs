@@ -1,20 +1,31 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class SleepTracker
 {
     public string UserId { get; set; }
-    public List<int> SleepRecords { get; set; }
+    private List<int> sleepRecords;
+
+    public List<int> SleepRecords
+    {
+        get { return sleepRecords; }
+        set
+        {
+            if (value == null) throw new ArgumentNullException("Sleep records cannot be null.");
+            sleepRecords = value;
+        }
+    }
 
     public SleepTracker()
     {
-        SleepRecords = new List<int>();
+        sleepRecords = new List<int>();
     }
 
     public SleepTracker(string userId)
     {
         UserId = userId;
-        SleepRecords = new List<int>();
+        sleepRecords = new List<int>();
     }
 
     public static SleepTracker CreateSleepTracker(string userId)
@@ -24,19 +35,23 @@ public class SleepTracker
 
     public void LogSleep(int hours)
     {
-        SleepRecords.Add(hours);
+        try
+        {
+            if (hours <= 0)
+                throw new ArgumentException("Sleep hours must be positive.");
+            sleepRecords.Add(hours);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error logging sleep: {ex.Message}");
+        }
     }
 
     public double AverageSleep(int days)
     {
-        if (SleepRecords.Count == 0) return 0;
+        if (sleepRecords.Count == 0) return 0;
 
-        int sum = 0;
-        int count = Math.Min(days, SleepRecords.Count);
-
-        for (int i = SleepRecords.Count - count; i < SleepRecords.Count; i++)
-            sum += SleepRecords[i];
-
-        return (double)sum / count;
+        int count = Math.Min(days, sleepRecords.Count);
+        return sleepRecords.Skip(sleepRecords.Count - count).Average();
     }
 }
