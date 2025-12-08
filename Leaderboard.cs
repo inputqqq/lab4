@@ -4,6 +4,9 @@ using System.Linq;
 
 public class Leaderboard
 {
+    // Статическое поле для подсчета очков всех пользователей
+    public static int TotalPoints = 0;
+
     public string Id { get; set; }
     public string Period { get; set; }
     public List<(string UserId, int Points)> Scores { get; set; }
@@ -27,7 +30,17 @@ public class Leaderboard
 
     public void AddScore(string userId, int points)
     {
-        Scores.Add((userId, points));
+        try
+        {
+            if (points < 0) throw new ArgumentException("Points cannot be negative.");
+
+            Scores.Add((userId, points));
+            TotalPoints += points;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error adding score: {ex.Message}");
+        }
     }
 
     public List<(string UserId, int Points)> Top(int n)
@@ -45,5 +58,11 @@ public class Leaderboard
             Console.WriteLine($"{place}. {s.UserId} — {s.Points} pts");
             place++;
         }
+    }
+
+    // Статический метод для вывода общего числа очков
+    public static void ShowTotalPoints()
+    {
+        Console.WriteLine($"Total points across all leaderboards: {TotalPoints}");
     }
 }
