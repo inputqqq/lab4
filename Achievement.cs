@@ -5,7 +5,18 @@ public class Achievement
     public string Id { get; set; }
     public string Name { get; set; }
     public string Criteria { get; set; }
-    public int RewardPoints { get; set; }
+
+    private int rewardPoints;
+    public int RewardPoints
+    {
+        get { return rewardPoints; }
+        set
+        {
+            if (value < 0)
+                throw new ArgumentException("Reward points cannot be negative.");
+            rewardPoints = value;
+        }
+    }
 
     public Achievement() { }
 
@@ -24,7 +35,8 @@ public class Achievement
 
     public bool CheckEligibility(string user)
     {
-        return true; // UML stub
+        // Заглушка для UML, можно добавить реальные условия
+        return true;
     }
 
     public void ShowAchievementInfo()
