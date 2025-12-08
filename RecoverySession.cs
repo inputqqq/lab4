@@ -5,7 +5,18 @@ public class RecoverySession
     public string Id { get; set; }
     public string Date { get; set; }
     public string Type { get; set; }
-    public int DurationMin { get; set; }
+    private int durationMin;
+
+    public int DurationMin
+    {
+        get { return durationMin; }
+        set
+        {
+            if (value <= 0) throw new ArgumentException("Duration must be positive.");
+            durationMin = value;
+        }
+    }
+
     public string Notes { get; set; }
 
     public RecoverySession() { }
