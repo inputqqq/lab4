@@ -35,7 +35,6 @@ public class Achievement
 
     public bool CheckEligibility(string user)
     {
-        // Заглушка для UML, можно добавить реальные условия
         return true;
     }
 

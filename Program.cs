@@ -7,7 +7,7 @@ class Program
     {
         Console.WriteLine("=== Fitness App Demo (C# Version) ===\n");
 
-        // --- —“¿“»◊≈— ¿ﬂ »Õ»÷»¿À»«¿÷»ﬂ ---
+        // --- CommunityProfile ---
         CommunityProfile user = CommunityProfile.CreateProfile("001", "Alex", "2025-01-15");
         user.AddFriend("Friend_002");
         user.AwardBadge("Early Bird");
@@ -16,24 +16,21 @@ class Program
         user.ShowProfileInfo();
         Console.WriteLine();
 
-
-        // --- ƒ»Õ¿Ã»◊≈— ¿ﬂ »Õ»÷»¿À»«¿÷»ﬂ (new) ---
-        HydrationTracker ht = new HydrationTracker("001", 2000);
+        // --- HydrationTracker ---
+        HydrationTracker ht = HydrationTracker.CreateHydrationTracker("001", 2000);
         ht.AddDrink(500);
         ht.AddDrink(700);
 
         Console.WriteLine("Hydration Progress:");
         Console.WriteLine($"Progress today: {ht.ProgressToday()}%\n");
 
-
-        // --- –¿¡Œ“¿ — Ã¿——»¬ŒÃ Œ¡⁄≈ “Œ¬ ---
+        // --- SleepTracker ---
         SleepTracker[] sleepArray = new SleepTracker[2];
         sleepArray[0] = SleepTracker.CreateSleepTracker("001");
         sleepArray[1] = SleepTracker.CreateSleepTracker("002");
 
         sleepArray[0].LogSleep(7);
         sleepArray[0].LogSleep(8);
-
         sleepArray[1].LogSleep(6);
         sleepArray[1].LogSleep(7);
 
@@ -41,10 +38,8 @@ class Program
         Console.WriteLine($"User1 avg sleep: {sleepArray[0].AverageSleep(2)} hours");
         Console.WriteLine($"User2 avg sleep: {sleepArray[1].AverageSleep(2)} hours\n");
 
-
-        // --- –¿¡Œ“¿ —  ŒÀÀ≈ ÷»≈… ƒ»Õ¿Ã»◊≈— »’ Œ¡⁄≈ “Œ¬ ---
+        // --- Challenges ---
         List<Challenge> activeChallenges = new List<Challenge>();
-
         activeChallenges.Add(Challenge.CreateChallenge("CH1", "30-Day Plank", "Do plank daily", 30));
         activeChallenges.Add(Challenge.CreateChallenge("CH2", "Run Week", "Run 5 days a week", 7));
 
@@ -53,11 +48,9 @@ class Program
         Console.WriteLine("Challenges:");
         foreach (var c in activeChallenges)
             c.ShowChallengeInfo();
-
         Console.WriteLine();
 
-
-        // --- –¿¡Œ“¿ — –≈…“»Õ√ŒÃ ---
+        // --- Leaderboard ---
         Leaderboard lb = Leaderboard.CreateLeaderboard("LB1", "Month");
         lb.AddScore("001", 150);
         lb.AddScore("002", 130);
@@ -65,10 +58,10 @@ class Program
 
         Console.WriteLine("Leaderboard:");
         lb.ShowLeaderboard();
+        Leaderboard.ShowTotalPoints();
         Console.WriteLine();
 
-
-        // --- —≈——»ﬂ ¬Œ——“¿ÕŒ¬À≈Õ»ﬂ ---
+        // --- RecoverySession ---
         RecoverySession session = RecoverySession.CreateSession("R1", "2025-03-01", "Yoga", 45, "Nice relaxation");
         Console.WriteLine("Recovery Session:");
         session.ShowSessionInfo();

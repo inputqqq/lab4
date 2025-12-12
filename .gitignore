@@ -10,3 +10,16 @@ namespace _4lab
     {
     }
 }
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+
+# Build output
+bin/
+obj/
+
+# Project files (если не хочешь их отслеживать)
+4lab.csproj
+4lab.sln
