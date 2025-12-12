@@ -1,45 +1,45 @@
-using System;
+public interface IDeepCloneable<T>
+{
+    T DeepClone(); // глубокое клонирование
+}
 
-public class Achievement
+
+public class Achievement : ICloneable, IDeepCloneable<Achievement>
 {
     public string Id { get; set; }
     public string Name { get; set; }
     public string Criteria { get; set; }
 
+
     private int rewardPoints;
     public int RewardPoints
     {
-        get { return rewardPoints; }
+        get => rewardPoints;
         set
         {
-            if (value < 0)
-                throw new ArgumentException("Reward points cannot be negative.");
+            if (value < 0) throw new ArgumentException("Reward cannot be negative.");
             rewardPoints = value;
         }
     }
 
-    public Achievement() { }
 
-    public Achievement(string id, string name, string criteria, int rewardPoints)
+    public Achievement(string id, string name, string criteria, int reward)
     {
         Id = id;
         Name = name;
         Criteria = criteria;
-        RewardPoints = rewardPoints;
+        RewardPoints = reward;
     }
 
-    public static Achievement CreateAchievement(string id, string name, string criteria, int rewardPoints)
-    {
-        return new Achievement(id, name, criteria, rewardPoints);
-    }
 
-    public bool CheckEligibility(string user)
-    {
-        return true;
-    }
+    public object Clone() => MemberwiseClone(); // поверхностное
 
-    public void ShowAchievementInfo()
+
+    public Achievement DeepClone() => new Achievement(Id, Name, Criteria, RewardPoints); // глубокое
+
+
+    public virtual void ShowAchievementInfo() // станет виртуальной
     {
-        Console.WriteLine($"{Name} Ч {Criteria}, reward {RewardPoints} pts");
+        Console.WriteLine($"Achievement: {Name} ({Criteria}) Ч {RewardPoints} pts");
     }
 }
