@@ -1,72 +1,77 @@
-using System;
-using System.Collections.Generic;
-
 class Program
 {
     static void Main()
     {
-        Console.WriteLine("=== Fitness App Demo (C# Version) ===\n");
+        Console.WriteLine("==== Демонстрация нового функционала ====");
 
-        // --- CommunityProfile ---
-        CommunityProfile user = CommunityProfile.CreateProfile("001", "Alex", "2025-01-15");
-        user.AddFriend("Friend_002");
-        user.AwardBadge("Early Bird");
 
-        Console.WriteLine("Community Profile:");
-        user.ShowProfileInfo();
-        Console.WriteLine();
+        // ---------------------------------------------
+        // 1. Виртуальные функции + полиморфизм
+        // ---------------------------------------------
 
-        // --- HydrationTracker ---
-        HydrationTracker ht = HydrationTracker.CreateHydrationTracker("001", 2000);
-        ht.AddDrink(500);
-        ht.AddDrink(700);
 
-        Console.WriteLine("Hydration Progress:");
-        Console.WriteLine($"Progress today: {ht.ProgressToday()}%\n");
+        Challenge ch = new Challenge("C1", "Daily Run", "Run 1 km");
+        Challenge adv = new AdvancedChallenge("C2", "Swim", "Swim 500m", 3);
 
-        // --- SleepTracker ---
-        SleepTracker[] sleepArray = new SleepTracker[2];
-        sleepArray[0] = SleepTracker.CreateSleepTracker("001");
-        sleepArray[1] = SleepTracker.CreateSleepTracker("002");
 
-        sleepArray[0].LogSleep(7);
-        sleepArray[0].LogSleep(8);
-        sleepArray[1].LogSleep(6);
-        sleepArray[1].LogSleep(7);
+        Console.WriteLine("\nВызов виртуальной функции через базовый класс:");
+        ch.ShowChallengeInfo();
 
-        Console.WriteLine("Sleep Stats:");
-        Console.WriteLine($"User1 avg sleep: {sleepArray[0].AverageSleep(2)} hours");
-        Console.WriteLine($"User2 avg sleep: {sleepArray[1].AverageSleep(2)} hours\n");
 
-        // --- Challenges ---
-        List<Challenge> activeChallenges = new List<Challenge>();
-        activeChallenges.Add(Challenge.CreateChallenge("CH1", "30-Day Plank", "Do plank daily", 30));
-        activeChallenges.Add(Challenge.CreateChallenge("CH2", "Run Week", "Run 5 days a week", 7));
+        Console.WriteLine("\nВызов виртуальной функции через ссылку на производный объект:");
+        Challenge ref2 = adv;
+        ref2.ShowChallengeInfo(); // вызывается ПЕРЕГРУЖЕННЫЙ метод
 
-        activeChallenges[0].Join("001");
 
-        Console.WriteLine("Challenges:");
-        foreach (var c in activeChallenges)
-            c.ShowChallengeInfo();
-        Console.WriteLine();
 
-        // --- Leaderboard ---
-        Leaderboard lb = Leaderboard.CreateLeaderboard("LB1", "Month");
-        lb.AddScore("001", 150);
-        lb.AddScore("002", 130);
-        lb.AddScore("003", 170);
 
-        Console.WriteLine("Leaderboard:");
-        lb.ShowLeaderboard();
-        Leaderboard.ShowTotalPoints();
-        Console.WriteLine();
+        // ---------------------------------------------
+        // 2. Protected — демонстрация
+        // ---------------------------------------------
+        Console.WriteLine("\nAdvancedChallenge имеет доступ к protected Participants.");
 
-        // --- RecoverySession ---
-        RecoverySession session = RecoverySession.CreateSession("R1", "2025-03-01", "Yoga", 45, "Nice relaxation");
-        Console.WriteLine("Recovery Session:");
-        session.ShowSessionInfo();
-        session.GetBenefits();
 
-        Console.WriteLine("\n=== END OF DEMO ===");
+
+
+        // ---------------------------------------------
+        // 3. Клонирование — поверхностное и глубокое
+        // ---------------------------------------------
+
+
+        Achievement a1 = new Achievement("A1", "Wake Up", "Wake early", 50);
+        Achievement shallow = (Achievement)a1.Clone();
+        Achievement deep = a1.DeepClone();
+
+
+        Console.WriteLine("\nПоверхностное и глубокое клонирование выполнено.");
+
+
+
+
+        // ---------------------------------------------
+        // 4. Множественное наследование (от класса и интерфейса)
+        // ---------------------------------------------
+
+
+        IResettable r = new AdvancedChallenge("C3", "Push Ups", "Do 20 push ups", 2);
+        r.Reset();
+
+
+        Console.WriteLine("\nМножественное наследование (класс + интерфейс) продемонстрировано.");
+
+
+
+
+        // ---------------------------------------------
+        // 5. Перегрузка виртуального метода (base + без base)
+        // ---------------------------------------------
+
+
+        Console.WriteLine("\nПерегрузка GetProgress():");
+        Console.WriteLine($"Base: {ch.GetProgress("u1")}");
+        Console.WriteLine($"Derived: {adv.GetProgress("u1")}");
+
+
+        Console.WriteLine("\n=== КОНЕЦ ДЕМОНСТРАЦИИ ===");
     }
 }
